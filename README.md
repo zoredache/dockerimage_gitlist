@@ -6,9 +6,6 @@ A ready to use docker image with preinstalled apache and gitlist.
 You can use it to quickly expose a web interface of the git repositories in a
 directory of your host machine.
 
-The dockerfile uses the lastest gitlist-master.tar.gz distribution
-available.
-
 Usage
 -----
 
