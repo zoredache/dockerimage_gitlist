@@ -1,17 +1,18 @@
-FROM ubuntu:14.04
-RUN apt-get update
-RUN apt-get -y install git nginx-full php5-fpm curl
-ADD https://s3.amazonaws.com/gitlist/gitlist-master.tar.gz /var/www/
-RUN cd /var/www; tar -zxvf gitlist-master.tar.gz
-RUN chmod -R 777 /var/www/gitlist
-RUN cd /var/www/gitlist/; mkdir cache; chmod 777 cache
-WORKDIR /var/www/gitlist/
-ADD config.ini /var/www/gitlist/
-ADD nginx.conf /etc/
+FROM php:7.1-apache-stretch
+WORKDIR /var/www/html/
+ADD https://github.com/klaussilveira/gitlist/releases/download/1.0.1/gitlist-1.0.1.tar.gz /var/www/html/gitlist.tar.gz
 
-RUN mkdir -p /repos/sentinel
-RUN cd /repos/sentinel; git --bare init .
+RUN echo "3da0643f710c5c6b9b86efa46f87bc4a14069b8d31702f21a81213882b7783ea  gitlist.tar.gz" | \
+  sha256sum --check && tar --strip-components=1 -xzvf gitlist.tar.gz \
+  && mkdir /var/www/html/cache \
+  && chown www-data:www-data /var/www/html/cache \
+  && a2enmod rewrite
 
-CMD service php5-fpm restart; nginx -c /etc/nginx.conf
+RUN apt-get update \
+  && apt-get --yes --no-install-recommends install git \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+ADD config.ini /var/www/html/config.ini
 
+VOLUME /repos
 
