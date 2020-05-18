@@ -1,4 +1,4 @@
-FROM php:7.3-apache-stretch
+FROM php:7.4-apache-buster
 WORKDIR /var/www/html/
 ADD https://github.com/klaussilveira/gitlist/releases/download/1.0.2/gitlist-1.0.2.tar.gz /var/www/html/gitlist.tar.gz
 
@@ -15,4 +15,3 @@ RUN apt-get update \
 ADD config.ini /var/www/html/config.ini
 
 VOLUME /repos
-
