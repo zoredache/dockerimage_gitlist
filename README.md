@@ -19,5 +19,8 @@ And run it like this
 
     docker run --rm=true -p 8888:80 -v /path/repo:/repos gitlist
 
+You can mount a config.ini file into `/var/www/html/config.ini` to
+update the settings.  For example if you want to enable the SSH URL.
+
 The web interface will be available on host machine at port 8888 and will show
 repositories inside /path/repo
